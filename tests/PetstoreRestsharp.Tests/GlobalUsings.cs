@@ -1,0 +1,1 @@
+global using PetstoreRestsharp.Tests.Assertions;

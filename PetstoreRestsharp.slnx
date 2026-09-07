@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PetstoreRestsharp.Core/PetstoreRestsharp.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PetstoreRestsharp.Tests/PetstoreRestsharp.Tests.csproj" />
+  </Folder>
+</Solution>
