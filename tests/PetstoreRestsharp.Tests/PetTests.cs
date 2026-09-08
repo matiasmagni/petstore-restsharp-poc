@@ -20,6 +20,7 @@ public class PetTests : TestFixtureBase
     {
         // Arrange
         var pet = PetTestData.CreatePet(id: UniqueIdLong(), name: "Buddy", status: "available");
+        Test.Log(Status.Info, $"Attempting to add pet with ID: {pet.Id} and Name: {pet.Name}");
 
         // Act
         var response = await Pets.AddPetAsync(pet);
@@ -27,12 +28,14 @@ public class PetTests : TestFixtureBase
         // Assert
         response.Should().BeSuccessful("the API should accept a well-formed pet");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        Test.Log(Status.Pass, $"Successfully added pet. Status Code: {response.StatusCode}");
 
         var created = await Pets.GetByIdAsync(pet.Id);
         created.Should().BeSuccessful();
         var fetched = created.Should().DeserializeAs<Pet>().Which;
         fetched.Name.Should().Be("Buddy");
         fetched.Status.Should().Be("available");
+        Test.Log(Status.Pass, $"Verified pet details: Name={fetched.Name}, Status={fetched.Status}");
 
         // Cleanup
         await Pets.DeleteAsync(pet.Id);

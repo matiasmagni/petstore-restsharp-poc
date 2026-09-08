@@ -19,12 +19,14 @@ public class UserTests : TestFixtureBase
         // Arrange
         var username = UniqueUsername2();
         var user = PetTestData.CreateUser(id: 7777 + Random.Shared.Next(1000), username: username);
+        Test.Log(Status.Info, $"Creating user with username: {username}");
 
         // Act
         var response = await Users.CreateAsync(user);
 
         // Assert
         response.Should().BeSuccessful();
+        Test.Log(Status.Pass, $"Successfully created user. Status Code: {response.StatusCode}");
 
         // Cleanup
         await Users.DeleteAsync(username);

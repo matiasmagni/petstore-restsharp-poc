@@ -1,5 +1,12 @@
 # Petstore RestSharp POC
 
+![.NET](https://img.shields.io/badge/.NET-10-512BD4?style=for-the-badge&logo=dotnet)
+![C#](https://img.shields.io/badge/C%23-8A2BE2?style=for-the-badge&logo=csharp)
+![RestSharp](https://img.shields.io/badge/RestSharp-114-blue?style=for-the-badge)
+![NUnit](https://img.shields.io/badge/NUnit-4-green?style=for-the-badge)
+![FluentAssertions](https://img.shields.io/badge/FluentAssertions-8-blueviolet?style=for-the-badge)
+![ExtentReports](https://img.shields.io/badge/ExtentReports-5-orange?style=for-the-badge)
+
 A C# API automation (testing) framework for the public [Petstore Swagger API](https://petstore.swagger.io/),
 built with **RestSharp**, **NUnit** and **FluentAssertions**.
 
@@ -25,7 +32,8 @@ HTTP API test suite in C# and is intended as a learning reference.
 9. [Design principles](#design-principles)
 10. [Troubleshooting & common issues](#troubleshooting--common-issues)
 11. [Notes & known quirks](#notes--known-quirks)
-12. [Learning resources](#learning-resources)
+12. [Reporting](#reporting)
+13. [Learning resources](#learning-resources)
 
 ---
 
@@ -68,6 +76,7 @@ The tests cover the three main areas of the Petstore API:
 | RestSharp | 114 | HTTP client for calling the API |
 | NUnit | 4 | Test framework and runner |
 | FluentAssertions | 8 | Assertion library for readable checks |
+| ExtentReports | 5 | HTML test reporting and logging |
 
 ---
 
@@ -382,6 +391,35 @@ The acronyms used in the code comments, explained:
   an occasional non-deterministic result.
 - This is a POC, so it intentionally favors simplicity over production-scale engineering
   (e.g. one file per resource, no logging layer, no CI pipeline).
+
+---
+
+## Reporting
+
+This project uses **ExtentReports** to generate rich HTML test reports. After running the tests, an HTML report is created in the test output directory.
+
+### How to View the Report
+
+1. Run the tests:
+   ```bash
+   dotnet test
+   ```
+2. Navigate to the test output directory (typically `tests/PetstoreRestsharp.Tests/bin/Debug/net10.0/`).
+3. Open `TestReport.html` in your web browser.
+
+The report provides a detailed overview of the test execution, including:
+- Pass/Fail/Skip status for each test.
+- Execution time.
+- Detailed logs added during the test steps (e.g., request parameters, response codes).
+- System information.
+
+### Implementation Details
+
+- **Initialization**: `TestFixtureBase.cs` initializes the `ExtentReports` instance and the HTML reporter in a static constructor (runs once per test session).
+- **Lifecycle**: 
+  - `[SetUp]` creates a new `ExtentTest` for each test method.
+  - `[TearDown]` logs the test result (Pass/Fail/Skip) and flushes the report to disk.
+- **Logging**: Test methods use `Test.Log(...)` to record specific steps and observations.
 
 ---
 

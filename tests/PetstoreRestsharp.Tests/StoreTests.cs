@@ -36,6 +36,7 @@ public class StoreTests : TestFixtureBase
     {
         // Arrange
         var order = PetTestData.CreateOrder(id: UniqueIdLong(), petId: UniqueIdLong());
+        Test.Log(Status.Info, $"Placing order with ID: {order.Id} for Pet ID: {order.PetId}");
 
         // Act
         var response = await Store.PlaceOrderAsync(order);
@@ -45,6 +46,7 @@ public class StoreTests : TestFixtureBase
         var created = response.Should().DeserializeAs<Order>().Which;
         created.Id.Should().Be(order.Id, "the API echoes the submitted id");
         created.Status.Should().Be("placed");
+        Test.Log(Status.Pass, $"Successfully placed order. Status: {created.Status}");
 
         // Cleanup
         await Store.DeleteOrderAsync(order.Id);
